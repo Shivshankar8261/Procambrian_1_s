@@ -1,11 +1,18 @@
-export function Approach() {
+import { Reveal } from "@/components/ui/Reveal";
+
+export function About() {
   return (
-    <section id="approach" className="px-6 md:px-16 py-20 md:py-28">
-      <div className="grid md:grid-cols-[1fr_1.4fr] gap-12">
-        <h2 className="font-display font-semibold text-3xl md:text-4xl text-bone">
-          Why the method comes from biology
-        </h2>
-        <div className="prose-body text-lichen space-y-5 text-[1.05rem]">
+    <section id="about" className="py-20 md:py-28">
+      <div className="shell grid gap-10 md:gap-12 md:grid-cols-[1fr_1.35fr]">
+        <div className="md:sticky md:top-[calc(var(--nav-h)+4rem)] md:self-start">
+          <Reveal>
+            <p className="eyebrow mb-4">About</p>
+            <h2 className="font-display font-semibold text-[1.8rem] md:text-4xl lg:text-[2.75rem] text-ink text-balance">
+              Why the method comes from biology
+            </h2>
+          </Reveal>
+        </div>
+        <Reveal className="prose-body text-ink-muted space-y-5 text-[1.02rem]">
           <p>
             Procambium is the tissue in a plant that hasn&apos;t decided yet
             what it will become. It differentiates into xylem, which carries
@@ -22,17 +29,17 @@ export function Approach() {
           </p>
           <p>
             The other half of the name — Precambrian — is a reminder that
-            sustainability work is long accumulation before visible change.
-            We build for that timescale: figures that stay traceable years
-            later, and a stated difference between what we measured, what we
-            modelled and what we estimated.
+            sustainability work is long accumulation before visible change. We
+            build for that timescale: figures that stay traceable years later,
+            and a stated difference between what we measured, what we modelled
+            and what we estimated.
           </p>
           <p>
             This is a method, not a finished product. We are validating it on
             public and synthetic datasets before claiming it works on an
             organisation&apos;s own reporting.
           </p>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

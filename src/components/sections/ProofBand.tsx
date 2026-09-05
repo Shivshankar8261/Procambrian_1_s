@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "@/lib/useCapabilities";
+import { Reveal } from "@/components/ui/Reveal";
 
 function useCountUp(target: number, active: boolean, duration = 1400) {
   const [value, setValue] = useState(0);
@@ -57,23 +59,24 @@ export function ProofBand() {
   }, []);
 
   return (
-    <section
-      id="proof"
-      ref={ref}
-      className="px-6 md:px-16 py-20 md:py-28 bg-cambium-panel border-y border-lichen-dim/25"
-    >
-      <p className="font-display font-semibold text-lg text-bone max-w-xl mb-1">
-        Illustrative model output — not measured in production yet.
-      </p>
-      <p className="prose-body text-lichen text-sm mb-12 max-w-xl">
-        We have no customer deployment to report on. These figures come from
-        our own reference pipeline running on public and synthetic datasets,
-        and none of them has been through third-party assurance.
-      </p>
-      <div className="grid sm:grid-cols-3 gap-10">
-        {FIGURES.map((f) => (
-          <Figure key={f.label} {...f} active={active} />
-        ))}
+    <section id="proof" ref={ref} className="py-20 md:py-28">
+      <div className="shell">
+        <Reveal>
+          <p className="eyebrow mb-4">Output</p>
+          <h2 className="font-display font-semibold text-[1.8rem] md:text-4xl lg:text-[2.75rem] text-ink max-w-3xl text-balance">
+            Illustrative model output — not measured in production yet.
+          </h2>
+          <p className="prose-body text-ink-muted mt-4 max-w-[58ch]">
+            We have no customer deployment to report on. These figures come
+            from our own reference pipeline running on public and synthetic
+            datasets, and none of them has been through third-party assurance.
+          </p>
+        </Reveal>
+        <dl className="mt-14 grid gap-10 sm:grid-cols-3 border-t border-line pt-10">
+          {FIGURES.map((f) => (
+            <Figure key={f.label} {...f} active={active} />
+          ))}
+        </dl>
       </div>
     </section>
   );
@@ -92,14 +95,23 @@ function Figure({
   detail: string;
   active: boolean;
 }) {
-  const value = useCountUp(target, active);
+  // A number that animates is a number that is briefly wrong, so anyone
+  // asking for reduced motion gets the final figure with no count-up.
+  const reduced = useReducedMotion();
+  const counted = useCountUp(target, active && !reduced);
+  const value = reduced ? target : counted;
   return (
-    <div className="group relative">
-      <p className="font-display font-semibold text-4xl md:text-5xl text-oxide-live tabular-nums">
-        {format(value)}
-      </p>
-      <p className="font-display text-sm text-bone mt-2">{label}</p>
-      <p className="prose-body text-lichen-dim text-xs mt-2">{detail}</p>
+    <div>
+      <dt className="sr-only">{label}</dt>
+      <dd>
+        <p className="font-display font-semibold text-4xl md:text-5xl text-water tabular-nums">
+          {format(value)}
+        </p>
+        <p className="font-display text-sm text-ink mt-2 max-w-[30ch]">{label}</p>
+        <p className="prose-body text-ink-faint text-xs mt-2 max-w-[34ch]">
+          {detail}
+        </p>
+      </dd>
     </div>
   );
 }

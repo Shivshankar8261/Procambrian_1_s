@@ -4,6 +4,10 @@ import { useState } from "react";
 
 const ITEMS = [
   {
+    q: "Which organisations is this for?",
+    a: "Organisations carrying a real reporting obligation and messy underlying data — multi-site operations, fleets, manufacturers, and the funds and asset owners that have to aggregate across them. If your emissions inventory currently lives in a spreadsheet nobody wants to open, that is the case we are built for.",
+  },
+  {
     q: "Is this deployed with any organisation yet?",
     a: "No. Procambrian is pre-product. Every figure on this site comes from our own reference pipeline on public or synthetic data, and is labelled as such.",
   },
@@ -16,6 +20,14 @@ const ITEMS = [
     a: "An organisation's own operational records — energy, fuel, travel, procurement, supplier declarations — combined with public environmental and climate hazard datasets. Every output figure carries whether it was measured, modelled or estimated.",
   },
   {
+    q: "Does our data have to leave our infrastructure?",
+    a: "That is the point of our first principle. The pipeline is built to run where your data already lives — on your own infrastructure, and on-device for the parts that fit there. Anything that would require handing over custody of your records is a design failure on our side, not a condition of use.",
+  },
+  {
+    q: "What is the energy cost of running this?",
+    a: "Real, and we account for it. We size models to the job rather than defaulting to the largest one available, and we would rather lose some accuracy than run a workload whose footprint outweighs the reductions it identifies. We publish our own compute footprint alongside the results it produced.",
+  },
+  {
     q: "How does the AI actually get used?",
     a: "Mainly for the unglamorous part: reconciling messy records into a consistent inventory, matching supplier line items to emissions factors, and flagging figures that look inconsistent with prior periods. The emissions arithmetic itself is deterministic and inspectable, not model output.",
   },
@@ -25,46 +37,67 @@ const ITEMS = [
   },
 ];
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: ITEMS.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a },
+  })),
+};
+
 export function Faq() {
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section id="faq" className="px-6 md:px-16 py-20 md:py-28 max-w-3xl">
-      <h2 className="font-display font-semibold text-3xl md:text-4xl text-bone mb-10">
-        Questions, answered plainly
-      </h2>
-      <ul className="divide-y divide-lichen-dim/25 border-y border-lichen-dim/25">
-        {ITEMS.map((item, i) => {
-          const isOpen = open === i;
-          return (
-            <li key={item.q}>
-              <button
-                className="w-full flex items-center justify-between gap-6 py-5 text-left font-display text-bone font-semibold"
-                aria-expanded={isOpen}
-                aria-controls={`faq-panel-${i}`}
-                onClick={() => setOpen(isOpen ? null : i)}
-              >
-                <span>{item.q}</span>
-                <span
-                  aria-hidden="true"
-                  className={`text-xylem-amber text-xl leading-none transition-transform ${
-                    isOpen ? "rotate-45" : ""
-                  }`}
-                >
-                  +
-                </span>
-              </button>
-              {isOpen && (
+    <section id="faq" className="py-20 md:py-28 border-t border-line">
+      <div className="shell">
+        <p className="eyebrow mb-4">FAQ</p>
+        <h2 className="font-display font-semibold text-[1.8rem] md:text-4xl lg:text-[2.75rem] text-ink mb-10 text-balance">
+          Questions, answered plainly
+        </h2>
+        <ul className="max-w-3xl divide-y divide-line border-y border-line">
+          {ITEMS.map((item, i) => {
+            const isOpen = open === i;
+            return (
+              <li key={item.q}>
+                <h3>
+                  <button
+                    type="button"
+                    className="w-full flex items-center justify-between gap-6 py-5 text-left font-display text-ink font-semibold"
+                    aria-expanded={isOpen}
+                    aria-controls={`faq-panel-${i}`}
+                    onClick={() => setOpen(isOpen ? null : i)}
+                  >
+                    <span>{item.q}</span>
+                    <span
+                      aria-hidden="true"
+                      className={`text-leaf text-xl leading-none transition-transform shrink-0 ${
+                        isOpen ? "rotate-45" : ""
+                      }`}
+                    >
+                      +
+                    </span>
+                  </button>
+                </h3>
+                {/* Kept in the DOM so the answers are indexable and
+                    findable with the browser's own search. */}
                 <p
                   id={`faq-panel-${i}`}
-                  className="prose-body text-lichen pb-6 max-w-[62ch]"
+                  hidden={!isOpen}
+                  className="prose-body text-ink-muted pb-6 max-w-[62ch]"
                 >
                   {item.a}
                 </p>
-              )}
-            </li>
-          );
-        })}
-      </ul>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
     </section>
   );
 }

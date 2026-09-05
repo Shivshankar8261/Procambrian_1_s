@@ -1,36 +1,38 @@
-"use client";
-
-import { useState } from "react";
-import { Preloader } from "@/components/Preloader";
 import { Nav } from "@/components/Nav";
-import { DepthRail } from "@/components/DepthRail";
+import { SectionRail } from "@/components/SectionRail";
 import { Hero } from "@/components/Hero";
-import { WhatWeDo } from "@/components/sections/WhatWeDo";
+import { Problems } from "@/components/sections/Problems";
+import { Method } from "@/components/sections/Method";
+import { Standards } from "@/components/sections/Standards";
 import { ProofBand } from "@/components/sections/ProofBand";
-import { Approach } from "@/components/sections/Approach";
+import { Principles } from "@/components/sections/Principles";
+import { About } from "@/components/sections/About";
+import { Interlude } from "@/components/sections/Interlude";
 import { Faq } from "@/components/sections/Faq";
 import { CtaFooter } from "@/components/sections/CtaFooter";
 import { SmoothScroll } from "@/components/SmoothScroll";
+import { heroSources } from "@/lib/videoAssets";
 
 export default function Home() {
-  const [loading, setLoading] = useState(true);
+  const sources = heroSources();
 
   return (
     <>
-      {loading && <Preloader onDone={() => setLoading(false)} />}
       <SmoothScroll />
       <Nav />
-      <div className="flex">
-        <DepthRail />
-        <main className="flex-1 min-w-0">
-          <Hero />
-          <WhatWeDo />
-          <ProofBand />
-          <Approach />
-          <Faq />
-          <CtaFooter />
-        </main>
-      </div>
+      <SectionRail />
+      <main>
+        <Hero sources={sources} />
+        <Problems />
+        <Method />
+        <Standards />
+        <ProofBand />
+        <Principles />
+        <About />
+        <Interlude sources={sources} />
+        <Faq />
+        <CtaFooter />
+      </main>
     </>
   );
 }

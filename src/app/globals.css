@@ -1,111 +1,257 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------
-   Procambrian design tokens — light
+   Procambrian design tokens
    Palette taken from the mark: the leaf-green ring (structure) and
    the water-blue arc (live). Green carries structural weight; blue
    is reserved for live / interactive states only — never decoration.
+   Names describe the role, not a metaphor, so a light page can't be
+   built out of tokens whose names describe a dark page.
 ----------------------------------------------------------------*/
 :root {
-  --strata-ink: #f6f8f6;      /* page ground — cool paper */
-  --cambium-panel: #eaefeb;   /* raised surfaces, cards, canvas frame */
-  --cambium-panel-2: #dfe7e1; /* one step deeper, for hover surfaces */
-  --bone: #17241e;            /* primary text — deep green-black ink */
-  --lichen: #4f5e56;          /* secondary text */
-  --lichen-dim: #93a49a;      /* tertiary text, borders, rules */
-  --xylem-amber: #4f9d52;     /* dominant accent — structure (logo green) */
-  --xylem-amber-dim: #3b7a3e;
-  --oxide-live: #2c8fd6;      /* reserved: live/interactive only (logo blue) */
-  --oxide-live-dim: #1e6fa8;
-  --on-accent: #ffffff;       /* text on filled accent surfaces */
+  --paper: #f6f8f6;      /* page ground — cool paper */
+  --panel: #eaefeb;      /* raised surfaces, alternating bands */
+  --panel-2: #dfe7e1;    /* one step deeper, for hover surfaces */
+  --ink: #17241e;        /* primary text — deep green-black */
+  --ink-muted: #4f5e56;  /* secondary text */
+  --ink-faint: #77877d;  /* tertiary text — 4.6:1 on paper */
+  --line: #cdd8d1;       /* borders and rules */
+  --leaf: #3f8443;       /* structural accent (logo green) — 4.6:1 on paper */
+  --leaf-deep: #2f6532;
+  --water: #1e6fa8;      /* live / interactive only (logo blue) — 5.6:1 */
+  --water-deep: #17567f;
+  --on-accent: #ffffff;  /* text on filled accent surfaces */
 
-  --font-display: var(--font-familjen);
-  --font-body: var(--font-newsreader);
+  /* Inverted surfaces. One dark band per page gives the scroll a change
+     of pressure instead of one continuous sheet of paper. */
+  --night: #101a15;
+  --night-2: #1a2b22;
+  --night-line: #33463c;
+  --on-night: #eef3ef;
+  --on-night-muted: #a9bcb0;
+
+  /* Century Gothic where the visitor has it, then its closest relatives
+     already installed on some systems, then the webfont stand-in that
+     everyone else gets. */
+  --font-century: "Century Gothic", CenturyGothic, "URW Gothic",
+    "ITC Avant Garde Gothic", var(--font-poppins), "Avant Garde", Futura,
+    sans-serif;
+  --font-display: var(--font-century);
+  --font-body: var(--font-century);
 
   --measure: 68ch;
-  --rail-w: 6.5rem;
+  --shell: 84rem;
+  --nav-h: 4.5rem;
 }
 
 @theme inline {
-  --color-strata-ink: var(--strata-ink);
-  --color-cambium-panel: var(--cambium-panel);
-  --color-cambium-panel-2: var(--cambium-panel-2);
-  --color-bone: var(--bone);
-  --color-lichen: var(--lichen);
-  --color-lichen-dim: var(--lichen-dim);
-  --color-xylem-amber: var(--xylem-amber);
-  --color-xylem-amber-dim: var(--xylem-amber-dim);
-  --color-oxide-live: var(--oxide-live);
-  --color-oxide-live-dim: var(--oxide-live-dim);
+  --color-paper: var(--paper);
+  --color-panel: var(--panel);
+  --color-panel-2: var(--panel-2);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-line: var(--line);
+  --color-leaf: var(--leaf);
+  --color-leaf-deep: var(--leaf-deep);
+  --color-water: var(--water);
+  --color-water-deep: var(--water-deep);
   --color-on-accent: var(--on-accent);
+  --color-night: var(--night);
+  --color-night-2: var(--night-2);
+  --color-night-line: var(--night-line);
+  --color-on-night: var(--on-night);
+  --color-on-night-muted: var(--on-night-muted);
 
   --font-display: var(--font-display);
   --font-body: var(--font-body);
 }
 
-html {
-  color-scheme: light;
-}
+@layer base {
+  html {
+    color-scheme: light;
+    /* Anchor jumps must clear the fixed header. Smooth scrolling is left
+       to Lenis so the two don't fight over the same scroll. */
+    scroll-padding-top: calc(var(--nav-h) + 1rem);
+  }
 
-* {
-  box-sizing: border-box;
-}
+  * {
+    box-sizing: border-box;
+  }
 
-body {
-  background: var(--strata-ink);
-  color: var(--bone);
-  font-family: var(--font-display), system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
-}
+  /* Century Gothic is the brand face everywhere. It is inherited from the
+     root, and re-declared on the elements that browsers would otherwise
+     render in their own UI font. */
+  html,
+  body,
+  button,
+  input,
+  select,
+  textarea {
+    font-family: var(--font-century);
+  }
 
-::selection {
-  background: var(--oxide-live);
-  color: var(--on-accent);
-}
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
 
-/* Skip link */
-.skip-link {
-  position: absolute;
-  left: 1rem;
-  top: -100%;
-  z-index: 100;
-  background: var(--oxide-live);
-  color: var(--on-accent);
-  padding: 0.75rem 1.25rem;
-  font-family: var(--font-display);
-  font-weight: 600;
-  transition: top 0.15s ease;
-}
-.skip-link:focus {
-  top: 1rem;
-}
+  ::selection {
+    background: var(--water);
+    color: var(--on-accent);
+  }
 
-/* Focus rings — visible, on-brand, never suppressed */
-:focus-visible {
-  outline: 2px solid var(--oxide-live);
-  outline-offset: 3px;
-}
-
-/* Depth rail (left column) */
-.depth-rail {
-  width: var(--rail-w);
-  flex-shrink: 0;
-  border-right: 1px solid color-mix(in srgb, var(--lichen) 25%, transparent);
-}
-
-@media (max-width: 767px) {
-  .depth-rail {
-    display: none;
+  /* Focus rings — visible, on-brand, never suppressed */
+  :focus-visible {
+    outline: 2px solid var(--water);
+    outline-offset: 3px;
   }
 }
 
-.prose-body {
-  font-family: var(--font-body);
-  max-width: var(--measure);
-  line-height: 1.65;
+@layer components {
+  /* Every section shares one measured column, so copy never sprawls
+     to the full width of a large desktop display. */
+  .shell {
+    width: 100%;
+    max-width: var(--shell);
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .shell {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .shell {
+      padding-inline: 4rem;
+    }
+  }
+
+  /* Small label above a section heading — sets the subject before the
+     headline states the claim. */
+  .eyebrow {
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--leaf);
+  }
+
+  /* Pill controls, set once so every call to action matches. */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    border-radius: 999px;
+    padding: 0.85rem 1.6rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1;
+    border: 1px solid transparent;
+    transition: background-color 0.2s ease, border-color 0.2s ease,
+      color 0.2s ease, transform 0.2s ease;
+  }
+  .pill:hover {
+    transform: translateY(-1px);
+  }
+  .pill .pill-arrow {
+    transition: transform 0.2s ease;
+  }
+  .pill:hover .pill-arrow {
+    transform: translateX(3px);
+  }
+
+  /* Reveal on entry. The class is only added once the element has been
+     seen, so content is never left invisible if the observer never runs. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal[data-shown="true"] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* A slow push on the hero footage. Autoplay is refused outright in
+     some places no visitor can control — iOS Low Power Mode is the big
+     one — and a frozen film frame reads as a broken page. This keeps the
+     hero alive whether or not the video itself is running. */
+  .hero-drift {
+    animation: hero-drift 32s ease-in-out infinite alternate;
+    transform-origin: 55% 60%;
+    will-change: transform;
+  }
+  @keyframes hero-drift {
+    from {
+      transform: scale(1.02) translate3d(0, 0, 0);
+    }
+    to {
+      transform: scale(1.12) translate3d(-1.5%, -1%, 0);
+    }
+  }
+
+  /* Standards marquee */
+  .marquee {
+    display: flex;
+    width: max-content;
+    animation: marquee 42s linear infinite;
+  }
+  .marquee:hover {
+    animation-play-state: paused;
+  }
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Skip link */
+  .skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -100%;
+    z-index: 100;
+    background: var(--water);
+    color: var(--on-accent);
+    padding: 0.75rem 1.25rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    transition: top 0.15s ease;
+  }
+  .skip-link:focus {
+    top: 1rem;
+  }
+
+  .prose-body {
+    font-family: var(--font-century);
+    max-width: var(--measure);
+    line-height: 1.7;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+  .marquee {
+    animation: none;
+  }
+  .hero-drift {
+    animation: none;
+    transform: scale(1.02);
+  }
   *,
   *::before,
   *::after {

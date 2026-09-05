@@ -1,58 +1,96 @@
 "use client";
 
-import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
-import { detectWebGL, prefersReducedMotion } from "@/lib/capabilities";
-import { HeroFallback } from "./hero3d/HeroFallback";
+import { useRef } from "react";
+import { Button } from "./ui/Button";
+import { useReducedMotion, useVideoSource } from "@/lib/useCapabilities";
+import { useAutoplay } from "@/lib/useAutoplay";
 
-const HeroCanvas = dynamic(
-  () => import("./hero3d/HeroCanvas").then((m) => m.HeroCanvas),
-  { ssr: false, loading: () => null }
-);
+export function Hero({
+  sources,
+}: {
+  sources: { src: string; type: string }[];
+}) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const reduced = useReducedMotion();
+  const videoSource = useVideoSource();
 
-export function Hero() {
-  const [use3D, setUse3D] = useState(false);
-  const [checked, setChecked] = useState(false);
-
-  useEffect(() => {
-    setUse3D(detectWebGL() && !prefersReducedMotion());
-    setChecked(true);
-  }, []);
+  useAutoplay(videoRef, !reduced);
 
   return (
     <section
       id="main"
-      className="relative min-h-[100svh] flex flex-col justify-end overflow-hidden border-b border-lichen-dim/30"
+      className="relative min-h-[100svh] flex isolate overflow-hidden bg-night bg-[url(/hero-poster.jpg)] bg-cover bg-center"
+      aria-labelledby="hero-heading"
     >
-      <div className="absolute inset-0 bg-cambium-panel">
-        {checked && (use3D ? <HeroCanvas /> : <HeroFallback />)}
-      </div>
-      {/* Light scrim: dark ink on a light ground needs far less cover than
-          the reverse, so this only softens the canvas behind the copy.
-          On mobile the canvas sits above the copy, so the wash runs upward. */}
-      <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-strata-ink via-strata-ink/70 to-transparent pointer-events-none" />
+      <video
+        ref={videoRef}
+        className="absolute inset-0 h-full w-full object-cover hero-drift"
+        poster="/hero-poster.jpg"
+        autoPlay={!reduced}
+        muted
+        loop
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+        tabIndex={-1}
+      >
+        {sources.map((source) => (
+          <source
+            key={source.src}
+            src={source.src === "/nature.webm" ? videoSource : source.src}
+            type={source.type}
+          />
+        ))}
+      </video>
+      {/* Two scrims: one lifting off the bottom for the copy, one from the
+          left so the headline keeps its contrast as the footage changes. */}
+      <div
+        className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/25"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/10 to-transparent"
+        aria-hidden="true"
+      />
 
-      <div className="relative z-10 px-6 md:px-16 pb-16 md:pb-24 max-w-5xl">
-        <p className="font-display text-sm text-lichen mb-4 tracking-wide">
-          Sustainability, ESG and climate intelligence
+      <div className="relative shell flex flex-col justify-end pb-16 md:pb-24 pt-[calc(var(--nav-h)+4rem)]">
+        <p className="eyebrow !text-white/75 mb-5">
+          Sustainability · ESG · Climate · Environmental intelligence
         </p>
-        <h1 className="font-display font-semibold text-[2.5rem] leading-[1.05] md:text-[4.5rem] md:leading-[1.02] text-bone max-w-4xl">
+        <h1
+          id="hero-heading"
+          className="font-display font-semibold text-white text-[2.35rem] leading-[1.05] sm:text-[3rem] lg:text-[3.9rem] xl:text-[4.4rem] max-w-[19ch] text-balance"
+        >
           Rooted in nature, delivered through AI.
         </h1>
-        <p className="prose-body text-lichen text-lg md:text-xl mt-6 max-w-[52ch]">
-          We turn an organisation&apos;s operational and environmental data
-          into climate, ESG and sustainability intelligence it can act on —
-          and we say which numbers are measured, modelled or estimated.
+        <p className="prose-body text-white/85 text-base md:text-lg mt-7 max-w-[56ch]">
+          Procambrian uses AI and data to solve complex sustainability, ESG,
+          climate and environmental intelligence problems for organisations —
+          and states which numbers are measured, modelled or estimated.
         </p>
-        <div className="mt-9">
-          <a
-            href="#what-we-do"
-            className="inline-flex items-center gap-2 bg-oxide-live text-on-accent font-display font-semibold px-6 py-3 hover:bg-oxide-live-dim transition-colors"
-          >
-            See what it does
-          </a>
+        <div className="mt-9 flex flex-wrap gap-4">
+          <Button href="#problems" variant="solid" arrow>
+            See what we solve
+          </Button>
+          <Button href="#contact" variant="onDark">
+            Talk to us
+          </Button>
         </div>
+        <p className="font-display text-xs text-white/55 mt-10 max-w-[52ch]">
+          Pre-product. Every figure on this site comes from our own reference
+          pipeline on public or synthetic data, and is labelled as such.
+        </p>
       </div>
+
+      <a
+        href="#problems"
+        className="absolute bottom-6 right-6 md:right-10 hidden sm:flex flex-col items-center gap-2 text-white/60 hover:text-white transition-colors"
+      >
+        <span className="font-display text-[0.7rem] tracking-[0.18em] uppercase [writing-mode:vertical-rl]">
+          Scroll
+        </span>
+        <span className="h-10 w-px bg-white/40" aria-hidden="true" />
+      </a>
     </section>
   );
 }
