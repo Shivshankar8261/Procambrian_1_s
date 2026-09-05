@@ -14,8 +14,8 @@ export function About() {
         </div>
         <Reveal className="prose-body text-ink-muted space-y-5 text-[1.02rem]">
           <p>
-            Procambium is the tissue in a plant that hasn&apos;t decided yet
-            what it will become. It differentiates into xylem, which carries
+            Procambium — the first half of our name — is the tissue in a
+            plant that hasn&apos;t decided yet what it will become. It differentiates into xylem, which carries
             water up, and phloem, which carries sugar down — two jobs, one
             origin layer, no blueprint drawn in advance.
           </p>
