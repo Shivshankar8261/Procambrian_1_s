@@ -1,26 +1,115 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------
+   Procambrian design tokens
+   Palette drawn from banded-iron-formation strata + stained
+   cambium microscopy. One accent (oxide) is reserved for live /
+   interactive states only — never decoration.
+----------------------------------------------------------------*/
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --strata-ink: #12181d;      /* ground */
+  --cambium-panel: #1e262c;   /* raised surfaces, cards, canvas frame */
+  --cambium-panel-2: #262f36; /* one step lighter, for hover surfaces */
+  --bone: #ede7dc;            /* primary text, warm off-white */
+  --lichen: #8b9490;          /* secondary text, borders, neutral */
+  --lichen-dim: #5b625f;      /* tertiary / disabled */
+  --xylem-amber: #c98a3e;     /* dominant accent — structure, rules, diagrams */
+  --xylem-amber-dim: #8f6531;
+  --oxide-live: #d5522f;      /* reserved: live/interactive states only */
+  --oxide-live-dim: #b8462f;
+
+  --font-display: var(--font-familjen);
+  --font-body: var(--font-newsreader);
+
+  --measure: 68ch;
+  --rail-w: 6.5rem;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-strata-ink: var(--strata-ink);
+  --color-cambium-panel: var(--cambium-panel);
+  --color-cambium-panel-2: var(--cambium-panel-2);
+  --color-bone: var(--bone);
+  --color-lichen: var(--lichen);
+  --color-lichen-dim: var(--lichen-dim);
+  --color-xylem-amber: var(--xylem-amber);
+  --color-xylem-amber-dim: var(--xylem-amber-dim);
+  --color-oxide-live: var(--oxide-live);
+  --color-oxide-live-dim: var(--oxide-live-dim);
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--strata-ink);
+  color: var(--bone);
+  font-family: var(--font-display), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--oxide-live);
+  color: var(--bone);
+}
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100%;
+  z-index: 100;
+  background: var(--oxide-live);
+  color: var(--bone);
+  padding: 0.75rem 1.25rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  transition: top 0.15s ease;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* Focus rings — visible, on-brand, never suppressed */
+:focus-visible {
+  outline: 2px solid var(--oxide-live);
+  outline-offset: 3px;
+}
+
+/* Depth rail (left column) */
+.depth-rail {
+  width: var(--rail-w);
+  flex-shrink: 0;
+  border-right: 1px solid color-mix(in srgb, var(--lichen) 25%, transparent);
+}
+
+@media (max-width: 767px) {
+  .depth-rail {
+    display: none;
+  }
+}
+
+.prose-body {
+  font-family: var(--font-body);
+  max-width: var(--measure);
+  line-height: 1.65;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
