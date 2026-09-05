@@ -1,18 +1,19 @@
 "use client";
 
 import { useRef } from "react";
+import type { VideoSource } from "@/lib/videoAssets";
 import { Button } from "./ui/Button";
-import { useReducedMotion, useVideoSource } from "@/lib/useCapabilities";
+import { useReducedMotion, useSaveData } from "@/lib/useCapabilities";
 import { useAutoplay } from "@/lib/useAutoplay";
 
 export function Hero({
   sources,
 }: {
-  sources: { src: string; type: string }[];
+  sources: VideoSource[];
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const reduced = useReducedMotion();
-  const videoSource = useVideoSource();
+  const saveData = useSaveData();
 
   useAutoplay(videoRef, !reduced);
 
@@ -37,7 +38,7 @@ export function Hero({
         {sources.map((source) => (
           <source
             key={source.src}
-            src={source.src === "/nature.webm" ? videoSource : source.src}
+            src={saveData && source.light ? source.light : source.src}
             type={source.type}
           />
         ))}

@@ -41,10 +41,9 @@ export function useCanRender3D(): boolean {
   return webgl && !reduced;
 }
 
-// The hero footage ships in two encodes of the same shot: a 1.9 MB
-// master and a 0.37 MB one. Sending five times the bytes to someone who
-// has asked their browser to save data is exactly the cost Principle 03
-// says we should not impose, so that request is honoured.
+// The hero footage ships in a master and a light encode of each format.
+// Sending the master to someone who has asked their browser to save data
+// is exactly the cost Principle 03 says we should not impose.
 //
 // Only saveData is consulted. effectiveType was tried first and is the
 // wrong signal: it is a round-trip-time estimate, and Chrome reports
@@ -54,19 +53,18 @@ type Connection = {
   saveData?: boolean;
 };
 
-let videoSource: string | null = null;
-function getVideoSource() {
-  if (videoSource === null) {
+let frugal: boolean | null = null;
+function getFrugal() {
+  if (frugal === null) {
     const connection = (
       navigator as Navigator & { connection?: Connection }
     ).connection;
-    videoSource =
-      connection?.saveData === true ? "/nature-light.webm" : "/nature.webm";
+    frugal = connection?.saveData === true;
   }
-  return videoSource;
+  return frugal;
 }
 
-/** Full-quality master unless the visitor has asked to save data. */
-export function useVideoSource(): string {
-  return useSyncExternalStore(noSubscribe, getVideoSource, () => "/nature.webm");
+/** True when the visitor has asked their browser to save data. */
+export function useSaveData(): boolean {
+  return useSyncExternalStore(noSubscribe, getFrugal, () => false);
 }

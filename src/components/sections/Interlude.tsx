@@ -2,7 +2,8 @@
 
 import dynamic from "next/dynamic";
 import { useRef } from "react";
-import { useCanRender3D, useVideoSource } from "@/lib/useCapabilities";
+import type { VideoSource } from "@/lib/videoAssets";
+import { useCanRender3D, useSaveData } from "@/lib/useCapabilities";
 import { useAutoplay } from "@/lib/useAutoplay";
 
 const TerrainCanvas = dynamic(
@@ -22,10 +23,10 @@ const TerrainCanvas = dynamic(
 export function Interlude({
   sources,
 }: {
-  sources: { src: string; type: string }[];
+  sources: VideoSource[];
 }) {
   const use3D = useCanRender3D();
-  const videoSource = useVideoSource();
+  const saveData = useSaveData();
   const videoRef = useRef<HTMLVideoElement>(null);
 
   // Only reached when WebGL is unavailable and the footage stands in
@@ -55,7 +56,7 @@ export function Interlude({
           {sources.map((source) => (
             <source
               key={source.src}
-              src={source.src === "/nature.webm" ? videoSource : source.src}
+              src={saveData && source.light ? source.light : source.src}
               type={source.type}
             />
           ))}
