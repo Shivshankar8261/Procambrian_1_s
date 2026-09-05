@@ -1,22 +1,23 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------
-   Procambrian design tokens
-   Palette drawn from banded-iron-formation strata + stained
-   cambium microscopy. One accent (oxide) is reserved for live /
-   interactive states only — never decoration.
+   Procambrian design tokens — light
+   Palette taken from the mark: the leaf-green ring (structure) and
+   the water-blue arc (live). Green carries structural weight; blue
+   is reserved for live / interactive states only — never decoration.
 ----------------------------------------------------------------*/
 :root {
-  --strata-ink: #12181d;      /* ground */
-  --cambium-panel: #1e262c;   /* raised surfaces, cards, canvas frame */
-  --cambium-panel-2: #262f36; /* one step lighter, for hover surfaces */
-  --bone: #ede7dc;            /* primary text, warm off-white */
-  --lichen: #8b9490;          /* secondary text, borders, neutral */
-  --lichen-dim: #5b625f;      /* tertiary / disabled */
-  --xylem-amber: #c98a3e;     /* dominant accent — structure, rules, diagrams */
-  --xylem-amber-dim: #8f6531;
-  --oxide-live: #d5522f;      /* reserved: live/interactive states only */
-  --oxide-live-dim: #b8462f;
+  --strata-ink: #f6f8f6;      /* page ground — cool paper */
+  --cambium-panel: #eaefeb;   /* raised surfaces, cards, canvas frame */
+  --cambium-panel-2: #dfe7e1; /* one step deeper, for hover surfaces */
+  --bone: #17241e;            /* primary text — deep green-black ink */
+  --lichen: #4f5e56;          /* secondary text */
+  --lichen-dim: #93a49a;      /* tertiary text, borders, rules */
+  --xylem-amber: #4f9d52;     /* dominant accent — structure (logo green) */
+  --xylem-amber-dim: #3b7a3e;
+  --oxide-live: #2c8fd6;      /* reserved: live/interactive only (logo blue) */
+  --oxide-live-dim: #1e6fa8;
+  --on-accent: #ffffff;       /* text on filled accent surfaces */
 
   --font-display: var(--font-familjen);
   --font-body: var(--font-newsreader);
@@ -36,13 +37,14 @@
   --color-xylem-amber-dim: var(--xylem-amber-dim);
   --color-oxide-live: var(--oxide-live);
   --color-oxide-live-dim: var(--oxide-live-dim);
+  --color-on-accent: var(--on-accent);
 
   --font-display: var(--font-display);
   --font-body: var(--font-body);
 }
 
 html {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 * {
@@ -58,7 +60,7 @@ body {
 
 ::selection {
   background: var(--oxide-live);
-  color: var(--bone);
+  color: var(--on-accent);
 }
 
 /* Skip link */
@@ -68,7 +70,7 @@ body {
   top: -100%;
   z-index: 100;
   background: var(--oxide-live);
-  color: var(--bone);
+  color: var(--on-accent);
   padding: 0.75rem 1.25rem;
   font-family: var(--font-display);
   font-weight: 600;

@@ -27,28 +27,29 @@ export function Hero() {
       <div className="absolute inset-0 bg-cambium-panel">
         {checked && (use3D ? <HeroCanvas /> : <HeroFallback />)}
       </div>
-      {/* Scrim for text contrast over the canvas — heavier on the left,
-          where the copy sits, so the growth field stays visible on the right. */}
-      <div className="absolute inset-0 bg-gradient-to-t from-strata-ink via-strata-ink/40 to-transparent pointer-events-none" />
-      <div className="absolute inset-0 bg-gradient-to-r from-strata-ink via-strata-ink/55 to-transparent pointer-events-none" />
+      {/* Light scrim: dark ink on a light ground needs far less cover than
+          the reverse, so this only softens the canvas behind the copy.
+          On mobile the canvas sits above the copy, so the wash runs upward. */}
+      <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-strata-ink via-strata-ink/70 to-transparent pointer-events-none" />
 
       <div className="relative z-10 px-6 md:px-16 pb-16 md:pb-24 max-w-5xl">
         <p className="font-display text-sm text-lichen mb-4 tracking-wide">
-          Procambrian
+          Sustainability, ESG and climate intelligence
         </p>
         <h1 className="font-display font-semibold text-[2.5rem] leading-[1.05] md:text-[4.5rem] md:leading-[1.02] text-bone max-w-4xl">
           Rooted in nature, delivered through AI.
         </h1>
-        <p className="prose-body text-lichen text-lg md:text-xl mt-6 max-w-[46ch]">
-          We grow routing structure from biological first principles, then
-          differentiate it into working systems.
+        <p className="prose-body text-lichen text-lg md:text-xl mt-6 max-w-[52ch]">
+          We turn an organisation&apos;s operational and environmental data
+          into climate, ESG and sustainability intelligence it can act on —
+          and we say which numbers are measured, modelled or estimated.
         </p>
         <div className="mt-9">
           <a
             href="#what-we-do"
-            className="inline-flex items-center gap-2 bg-oxide-live text-bone font-display font-semibold px-6 py-3 hover:bg-oxide-live-dim transition-colors"
+            className="inline-flex items-center gap-2 bg-oxide-live text-on-accent font-display font-semibold px-6 py-3 hover:bg-oxide-live-dim transition-colors"
           >
-            See how it grows
+            See what it does
           </a>
         </div>
       </div>

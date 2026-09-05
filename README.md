@@ -1,8 +1,8 @@
 # Procambrian
 
-Rooted in nature, delivered through AI. Marketing site with a procedural,
-GLSL-driven 3D hero — a vascular strand that grows via space colonization
-and differentiates from structural (amber) to live/data (oxide-red) branches.
+Procambrian uses AI and data to solve sustainability, ESG, climate and
+environmental intelligence problems for organisations. Light-themed marketing
+site with a procedural GLSL 3D hero: a vascular strand that grows via space colonization and differentiates from structural green into live blue, mirroring the logo mark.
 
 ## Stack
 
@@ -26,12 +26,13 @@ into Tailwind via `@theme inline` so they're usable as `bg-strata-ink`,
 
 | Token | Hex | Role |
 |---|---|---|
-| `strata-ink` | `#12181d` | page ground |
-| `cambium-panel` / `-2` | `#1e262c` / `#262f36` | raised surfaces |
-| `bone` | `#ede7dc` | primary text |
-| `lichen` / `lichen-dim` | `#8b9490` / `#5b625f` | secondary text, borders |
-| `xylem-amber` / `-dim` | `#c98a3e` / `#8f6531` | dominant structural accent |
-| `oxide-live` / `-dim` | `#d5522f` / `#b8462f` | **reserved for live/interactive states only** |
+| `strata-ink` | `#f6f8f6` | page ground (cool paper) |
+| `cambium-panel` / `-2` | `#eaefeb` / `#dfe7e1` | raised surfaces |
+| `bone` | `#17241e` | primary text (deep green-black ink) |
+| `lichen` / `lichen-dim` | `#4f5e56` / `#93a49a` | secondary text, borders |
+| `xylem-amber` / `-dim` | `#4f9d52` / `#3b7a3e` | dominant structural accent (logo green) |
+| `oxide-live` / `-dim` | `#2c8fd6` / `#1e6fa8` | **reserved for live/interactive states only** (logo blue) |
+| `on-accent` | `#ffffff` | text on filled accent surfaces |
 
 Type: `Familjen Grotesk` (display/UI, `--font-display`) + `Newsreader`
 (body/editorial, `--font-body`), loaded via `next/font/google` in

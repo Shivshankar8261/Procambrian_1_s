@@ -4,20 +4,24 @@ import { useState } from "react";
 
 const ITEMS = [
   {
-    q: "Is this deployed anywhere yet?",
-    a: "No. Procambrian is pre-product. Every figure on this site is a simulation output, labeled as such, run at a stated seed.",
+    q: "Is this deployed with any organisation yet?",
+    a: "No. Procambrian is pre-product. Every figure on this site comes from our own reference pipeline on public or synthetic data, and is labelled as such.",
   },
   {
-    q: "What exactly does the growth algorithm do?",
-    a: "It's a space-colonization process: a strand grows step by step toward a field of attractor points, branching where multiple attractors pull it in different directions. Past a height threshold, branches get tagged as differentiated and treated differently downstream.",
+    q: "Which frameworks are you building against?",
+    a: "GHG Protocol scopes 1, 2 and 3 for emissions accounting, with disclosure output structured for CSRD/ESRS and TCFD-style physical risk reporting. None of it has been through third-party assurance yet.",
   },
   {
-    q: "Why 'rooted in nature' instead of a straightforward bio-inspired-AI pitch?",
-    a: "Because the method is specific, not decorative: growth-toward-targets and post-hoc differentiation are the actual mechanism, not a metaphor layered on top of an unrelated model.",
+    q: "Where does the data come from?",
+    a: "An organisation's own operational records — energy, fuel, travel, procurement, supplier declarations — combined with public environmental and climate hazard datasets. Every output figure carries whether it was measured, modelled or estimated.",
+  },
+  {
+    q: "How does the AI actually get used?",
+    a: "Mainly for the unglamorous part: reconciling messy records into a consistent inventory, matching supplier line items to emissions factors, and flagging figures that look inconsistent with prior periods. The emissions arithmetic itself is deterministic and inspectable, not model output.",
   },
   {
     q: "What hasn't been validated?",
-    a: "Real network topologies at production scale, failure recovery under the grown structure, and cost compared to hand-designed routing. We're stating this rather than omitting it.",
+    a: "Scope 3 supplier data at production scale, third-party assurance of our outputs, sector coverage beyond the reference datasets we've tested, and physical risk modelling below regional resolution. We would rather state this than omit it.",
   },
 ];
 

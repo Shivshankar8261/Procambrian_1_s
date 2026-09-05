@@ -41,10 +41,11 @@ const fragmentShader = /* glsl */ `
   uniform vec3 uLightDir;
 
   void main() {
-    float diffuse = clamp(dot(normalize(vNormal), normalize(uLightDir)), 0.4, 1.0);
+    // On a light ground the shading has to darken rather than brighten,
+    // or the structure washes out into the background.
+    float diffuse = clamp(dot(normalize(vNormal), normalize(uLightDir)), 0.55, 1.0);
     vec3 base = mix(uAmber, uOxide, vResolved);
-    float glow = mix(1.3, 2.1, vResolved);
-    vec3 color = base * diffuse * glow;
+    vec3 color = base * diffuse;
     float alpha = vGrowth;
     if (alpha < 0.02) discard;
     gl_FragColor = vec4(color, alpha);
@@ -82,8 +83,10 @@ export function GrowthField({ seed = 1117 }: { seed?: number }) {
         uMaxOrder: { value: Math.max(1, maxOrder) },
         uGrowDuration: { value: 2.4 },
         uGrowWindow: { value: 0.5 },
-        uAmber: { value: new THREE.Color("#96702f") },
-        uOxide: { value: new THREE.Color("#ef5030") },
+        // Structural growth carries the mark's leaf-green; branches that
+        // differentiate into "live" routing resolve to its water-blue.
+        uAmber: { value: new THREE.Color("#4f9d52") },
+        uOxide: { value: new THREE.Color("#2c8fd6") },
         uLightDir: { value: new THREE.Vector3(0.4, 1, 0.6) },
       },
     });

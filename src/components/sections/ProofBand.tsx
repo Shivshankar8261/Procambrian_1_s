@@ -22,22 +22,22 @@ function useCountUp(target: number, active: boolean, duration = 1400) {
 
 const FIGURES = [
   {
-    target: 1204,
-    format: (v: number) => Math.round(v).toLocaleString(),
-    label: "nodes in simulated graph",
-    detail: "seed #1117, 420 attractors, kill radius 0.16",
+    target: 14,
+    format: (v: number) => Math.round(v).toString(),
+    label: "data sources reconciled in the reference pipeline",
+    detail: "public energy, fuel and procurement datasets — no customer data",
   },
   {
     target: 73,
     format: (v: number) => `${Math.round(v)}%`,
-    label: "modeled routing efficiency",
-    detail: "± 6% band across 40 re-runs at this seed",
+    label: "of the sample inventory traced to measured records",
+    detail: "the remaining 27% is modelled or estimated, and marked as such",
   },
   {
     target: 2.1,
     format: (v: number) => `${v.toFixed(1)}×`,
-    label: "projected vs. fixed-topology baseline",
-    detail: "simulation only — not measured against a deployed system",
+    label: "faster than the manual reconciliation baseline",
+    detail: "one internal test on a synthetic dataset — not a customer result",
   },
 ];
 
@@ -66,8 +66,9 @@ export function ProofBand() {
         Illustrative model output — not measured in production yet.
       </p>
       <p className="prose-body text-lichen text-sm mb-12 max-w-xl">
-        We have no deployed customer to report on. These figures come from
-        the growth simulation itself, run at the seed and parameters shown.
+        We have no customer deployment to report on. These figures come from
+        our own reference pipeline running on public and synthetic datasets,
+        and none of them has been through third-party assurance.
       </p>
       <div className="grid sm:grid-cols-3 gap-10">
         {FIGURES.map((f) => (

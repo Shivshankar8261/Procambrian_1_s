@@ -40,26 +40,29 @@ export function HeroCanvas() {
   const [minDpr, maxDpr] = capDPR(tier);
 
   return (
+    // Anchored to its own column rather than the full hero: a fixed
+    // world-space offset drifts across the copy as the viewport aspect
+    // changes, so the canvas owns the right-hand band instead.
     <div
       ref={containerRef}
-      className="absolute inset-0"
+      className="absolute inset-x-0 top-0 h-[42%] md:inset-y-0 md:left-auto md:right-0 md:h-full md:w-[56%]"
       aria-hidden="true"
     >
       <Canvas
         dpr={[minDpr, maxDpr]}
         gl={{ antialias: true, powerPreference: "high-performance" }}
-        camera={{ position: [0, 0.1, 8.4], fov: 42 }}
+        camera={{ position: [0, 0.1, 9.6], fov: 42 }}
         frameloop={visible ? "always" : "never"}
       >
         <PerformanceMonitor
           onDecline={() => setTier((t) => (t === "high" ? "medium" : "low"))}
         />
-        <color attach="background" args={["#12181d"]} />
-        <fog attach="fog" args={["#12181d", 9, 16]} />
+        <color attach="background" args={["#eaefeb"]} />
+        <fog attach="fog" args={["#eaefeb", 13, 24]} />
         <ambientLight intensity={0.35} />
-        <directionalLight position={[3, 5, 2]} intensity={1.1} color="#f2e6cf" />
-        <directionalLight position={[-4, -1, -3]} intensity={0.25} color="#d5522f" />
-        <group position={[1.8, -1.7, 0]} scale={1.05}>
+        <directionalLight position={[3, 5, 2]} intensity={1.1} color="#ffffff" />
+        <directionalLight position={[-4, -1, -3]} intensity={0.25} color="#2c8fd6" />
+        <group position={[0, -1.3, 0]} scale={0.85}>
           <GrowthField seed={1117} />
         </group>
         {/* Isolated in its own Suspense: the HDRI fetch must never block

@@ -22,10 +22,11 @@ export const metadata: Metadata = {
     template: "%s — Procambrian",
   },
   description:
-    "Procambrian grows routing structure from biological first principles, then differentiates it into intelligence. Structural methods, stated plainly, with limits admitted.",
+    "Procambrian uses AI and data to solve sustainability, ESG, climate and environmental intelligence problems for organisations — and states which numbers are measured, modelled or estimated.",
   openGraph: {
     title: "Procambrian",
-    description: "Rooted in nature, delivered through AI.",
+    description:
+      "AI and data for sustainability, ESG and climate intelligence. Rooted in nature, delivered through AI.",
     url: "https://procambrian.ai",
     siteName: "Procambrian",
     type: "website",
