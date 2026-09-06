@@ -94,10 +94,16 @@ const fragmentShader = /* glsl */ `
 const TARGET_HEIGHT = 4.6;
 
 const mix = (a: number, b: number, t: number) => a + (b - a) * t;
+// One target per law, so the structure is scattered at law 01, half
+// gathered at 02, and fully grown and traced by 03.
+//
+// The stage is clamped to this array's length, so adding a fourth law
+// without adding a fourth target here leaves the tree complete from law
+// 03 onward rather than breaking — which is the intended reading of
+// "the graphics complete at the third law" either way.
 const STAGE_TARGETS = [
   { assemble: 0, highlight: 0, trace: 0 },
-  { assemble: 1, highlight: 0, trace: 0 },
-  { assemble: 1, highlight: 1, trace: 0 },
+  { assemble: 0.62, highlight: 0.5, trace: 0 },
   { assemble: 1, highlight: 0.35, trace: 1 },
 ];
 

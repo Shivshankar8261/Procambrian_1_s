@@ -7,7 +7,6 @@ export const RAIL_SECTIONS = [
   { id: "problems", label: "Problem" },
   { id: "solution", label: "Solution" },
   { id: "offerings", label: "Products" },
-  { id: "method", label: "Method" },
   { id: "principles", label: "Principles" },
   { id: "about", label: "About" },
   { id: "mission", label: "Mission" },

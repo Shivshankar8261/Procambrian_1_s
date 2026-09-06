@@ -5,7 +5,6 @@ import { ValueProps } from "@/components/sections/ValueProps";
 import { Problems } from "@/components/sections/Problems";
 import { Solution } from "@/components/sections/Solution";
 import { Offerings } from "@/components/sections/Offerings";
-import { Method } from "@/components/sections/Method";
 import { Standards } from "@/components/sections/Standards";
 import { Principles } from "@/components/sections/Principles";
 import { About } from "@/components/sections/About";
@@ -31,7 +30,6 @@ export default function Home() {
         <Problems />
         <Solution />
         <Offerings />
-        <Method />
         <Standards />
         <Principles />
         <About />
