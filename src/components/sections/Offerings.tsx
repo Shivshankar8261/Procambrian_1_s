@@ -24,7 +24,6 @@ const OFFERINGS = [
     name: "IRIS",
     body: "A privacy-first, RAG-powered engine trained on global sustainability frameworks, regional climate policies and internal corporate documents. Source-cited answers, live document side-by-side coordinate mapping, and exact metric retrieval without hallucination.",
     meta: "Integrated Regulatory & Policy Intelligence",
-    featured: true,
   },
 ];
 
@@ -39,40 +38,35 @@ export function Offerings() {
           </h2>
         </Reveal>
 
+        {/* A plain 2x2: four equal cells, so there is no empty half-row
+            and every card carries the same weight. */}
         <ul className="mt-14 grid gap-px bg-line md:grid-cols-2 border border-line">
           {OFFERINGS.map((o, i) => (
-            <li
-              key={o.name}
-              className={`bg-paper ${o.featured ? "md:col-span-2" : ""}`}
-            >
+            <li key={o.name} className="bg-paper">
               <Reveal
                 delay={i * 80}
-                className={`group relative h-full p-8 lg:p-10 flex flex-col gap-3 transition-colors ${
-                  o.featured
-                    ? "bg-panel hover:bg-panel-2"
-                    : "bg-paper hover:bg-panel"
-                }`}
+                className="group relative h-full bg-paper p-8 lg:p-10 flex flex-col transition-colors hover:bg-panel"
               >
                 <span
                   className="absolute left-0 top-0 h-[2px] w-0 bg-leaf transition-all duration-500 group-hover:w-full"
                   aria-hidden="true"
                 />
-                <div className="flex items-baseline gap-3">
-                  <span className="font-display text-sm font-semibold text-water tabular-nums">
-                    {o.n}
-                  </span>
-                  <span className="eyebrow !text-ink-faint">{o.meta}</span>
-                </div>
-                <h3
-                  className={`font-display font-semibold text-ink ${
-                    o.featured ? "text-2xl md:text-3xl" : "text-xl md:text-2xl"
-                  }`}
-                >
+                {/* The number sits on its own line rather than sharing one
+                    with the descriptor. Sharing it meant a descriptor that
+                    wrapped to two lines pushed that card's heading down out
+                    of line with its neighbour's. */}
+                <span className="font-display text-sm font-semibold text-water tabular-nums">
+                  {o.n}
+                </span>
+                <h3 className="font-display font-semibold text-ink text-xl md:text-2xl mt-3 text-balance">
                   {o.name}
                 </h3>
-                <p className="prose-body text-ink-muted text-[0.98rem] max-w-[62ch]">
+                <p className="prose-body text-ink-muted text-[0.98rem] mt-3 max-w-[52ch]">
                   {o.body}
                 </p>
+                {/* Pushed to the floor of the cell, so the descriptors line
+                    up across a row however unevenly the bodies run. */}
+                <p className="eyebrow !text-ink-faint mt-auto pt-6">{o.meta}</p>
               </Reveal>
             </li>
           ))}
