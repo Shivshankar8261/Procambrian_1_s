@@ -120,7 +120,7 @@ export function Principles() {
   return (
     <section
       id="principles"
-      className="bg-panel border-y border-line py-20 md:py-28"
+      className="bg-panel border-y border-line py-16 md:py-24"
     >
       <div className="shell">
         <Reveal>
@@ -136,11 +136,11 @@ export function Principles() {
         </Reveal>
       </div>
 
-      <div className="shell mt-10 md:mt-16 grid gap-4 lg:gap-20 lg:grid-cols-[1fr_1fr]">
+      <div className="shell mt-8 md:mt-12 grid gap-4 lg:gap-16 lg:grid-cols-[1fr_1fr]">
         {/* Sticky visual. It holds still while the laws scroll past it,
             and grows a step further on each one. */}
         <div className="sticky top-[var(--nav-h)] z-10 self-start -mx-6 md:-mx-10 lg:mx-0 bg-panel lg:bg-transparent">
-          <div className="relative h-[30svh] min-h-[200px] lg:h-[min(70svh,34rem)]">
+          <div className="relative h-[26svh] min-h-[180px] lg:h-[min(52svh,24rem)]">
             {use3D ? <GrowthCanvas stageRef={stageRef} /> : <GrowthFallback />}
           </div>
           <div className="flex items-center gap-4 px-6 md:px-10 lg:px-0 pb-3 lg:pb-0">
@@ -167,7 +167,7 @@ export function Principles() {
               ref={(el) => {
                 lawRefs.current[i] = el;
               }}
-              className="min-h-[42svh] lg:min-h-[62svh] flex flex-col justify-start lg:justify-center py-6 lg:py-10"
+              className="min-h-[30svh] lg:min-h-[38svh] flex flex-col justify-start lg:justify-center py-5 lg:py-8"
             >
               <span className="font-display text-sm font-semibold text-water tabular-nums">
                 Law {l.n}
