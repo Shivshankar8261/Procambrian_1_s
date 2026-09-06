@@ -6,7 +6,7 @@ import { makeRng } from "./seededRandom";
  *
  * A procambial strand grows toward randomly seeded nutrient attractors.
  * Past a differentiation height, branches heading "outward" are tagged
- * phloem-like (structural, stays amber) and branches heading "upward"
+ * phloem-like (structural, stays leaf-green) and branches heading "upward"
  * are tagged xylem-like and gradually re-tagged `resolved` — the point
  * where the biological strand starts reading as a routing graph.
  *
@@ -17,14 +17,16 @@ export type Segment = {
   start: Vector3;
   end: Vector3;
   order: number; // growth order, used to drive the reveal animation
-  resolved: boolean; // true = differentiated into "data" (oxide-live)
+  resolved: boolean; // true = differentiated into "data" (water-blue)
   radius: number;
+  limb: number; // index of the limb this segment belongs to
 };
 
 export type GrowthResult = {
   segments: Segment[];
   maxOrder: number;
   attractorCount: number;
+  limbCount: number;
 };
 
 type Node = {
@@ -44,6 +46,7 @@ export function generateGrowth(seed = 1117, opts?: Partial<{
   stepSize: number;
   maxIterations: number;
   differentiationHeight: number;
+  limbDepth: number;
 }>): GrowthResult {
   const rng = makeRng(seed);
 
@@ -131,19 +134,39 @@ export function generateGrowth(seed = 1117, opts?: Partial<{
 
   const maxOrder = order - 1;
 
+  // Limb identity: every node inherits the id of its ancestor at the
+  // branching depth below. Highlighting then lights up whole limbs
+  // rather than a scatter of unrelated segments.
+  const limbDepth = opts?.limbDepth ?? 6;
+  const limbOf = new Map<Node, number>();
+  let limbCount = 0;
+  const resolveLimb = (n: Node): number => {
+    const cached = limbOf.get(n);
+    if (cached !== undefined) return cached;
+    let id: number;
+    if (n.depth <= limbDepth || !n.parent) id = limbCount++;
+    else id = resolveLimb(n.parent);
+    limbOf.set(n, id);
+    return id;
+  };
+
   const segments: Segment[] = [];
   for (const n of nodes) {
     if (!n.parent) continue;
     const resolved = n.pos.y > differentiationHeight;
-    const radius = Math.max(0.008, 0.04 - n.depth * 0.0016);
+    // Exponential taper from trunk to tip. The previous linear falloff
+    // bottomed out after ~20 steps, so most of the tree rendered at a
+    // single thickness and read as a mass rather than a branch system.
+    const radius = Math.max(0.012, 0.075 * Math.exp(-n.depth * 0.06));
     segments.push({
       start: n.parent.pos,
       end: n.pos,
       order: n.order,
       resolved,
       radius,
+      limb: resolveLimb(n),
     });
   }
 
-  return { segments, maxOrder, attractorCount };
+  return { segments, maxOrder, attractorCount, limbCount };
 }
