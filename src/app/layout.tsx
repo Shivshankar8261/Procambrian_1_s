@@ -15,32 +15,38 @@ const poppins = Poppins({
 });
 
 const DESCRIPTION =
-  "Procambrian uses AI and data to solve complex sustainability, ESG, climate and environmental intelligence problems for organisations — and states which numbers are measured, modelled or estimated.";
+  "Procambrian turns complex environmental risks into audit-ready decisions, actionable strategies and verifiable sustainability disclosures — nature and climate intelligence built for industry.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://procambrian.ai"),
   title: {
-    default: "Procambrian — AI and data for sustainability, ESG and climate",
+    default: "Procambrian — Nature and climate intelligence, built for industry",
     template: "%s — Procambrian",
   },
   description: DESCRIPTION,
   alternates: { canonical: "/" },
   keywords: [
-    "sustainability AI",
-    "ESG data",
+    "nature intelligence",
     "climate intelligence",
-    "environmental intelligence",
-    "carbon accounting",
-    "GHG Protocol",
+    "ESG disclosure",
+    "BRSR",
     "CSRD",
     "ESRS",
+    "TNFD",
     "TCFD",
-    "physical climate risk",
+    "biodiversity reporting",
+    "natural capital",
+    "agroecology",
+    "supply chain resilience",
+    "carbon accounting",
+    "GHG Protocol",
     "scope 3 emissions",
+    "physical climate risk",
+    "RAG regulatory intelligence",
   ],
   authors: [{ name: "Procambrian" }],
   openGraph: {
-    title: "Procambrian — AI and data for sustainability, ESG and climate",
+    title: "Procambrian — Nature and climate intelligence, built for industry",
     description: DESCRIPTION,
     url: "https://procambrian.ai",
     siteName: "Procambrian",
@@ -49,7 +55,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Procambrian — AI and data for sustainability, ESG and climate",
+    title: "Procambrian — Nature and climate intelligence, built for industry",
     description: DESCRIPTION,
   },
   robots: {
@@ -69,12 +75,52 @@ const organisationJsonLd = {
   email: "hello@procambrian.ai",
   description: DESCRIPTION,
   knowsAbout: [
-    "Sustainability",
-    "ESG reporting",
-    "Climate intelligence",
-    "Environmental intelligence",
+    "Climate resilience intelligence",
+    "Agroecology and supply chain intelligence",
+    "Biodiversity and natural capital",
+    "Regulatory and policy intelligence",
+    "ESG disclosure",
     "Greenhouse gas accounting",
-    "Physical climate risk",
+    "Physical and transition climate risk",
+  ],
+  makesOffer: [
+    {
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Service",
+        name: "Climate Resilience Intelligence",
+        description:
+          "Risk assessments, physical and transition scenario modelling, and adaptation strategy for enterprises and financial portfolios, aligned with TCFD, TNFD and BRSR.",
+      },
+    },
+    {
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Service",
+        name: "Agroecology & Supply Chain Intelligence",
+        description:
+          "Nature-positive supply chain analytics, food system vulnerability assessments and smallholder resilience toolkits.",
+      },
+    },
+    {
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Service",
+        name: "Biodiversity & Nature Capital Intelligence",
+        description:
+          "TNFD-aligned biodiversity reporting, ecosystem dependency mapping and natural capital valuation frameworks.",
+      },
+    },
+    {
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "SoftwareApplication",
+        name: "IRIS — Integrated Regulatory & Policy Intelligence",
+        applicationCategory: "BusinessApplication",
+        description:
+          "A privacy-first, RAG-powered engine trained on global sustainability frameworks, regional climate policies and internal corporate documents, giving source-cited answers and exact metric retrieval without hallucination.",
+      },
+    },
   ],
 };
 

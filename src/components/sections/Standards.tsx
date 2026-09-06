@@ -1,14 +1,14 @@
 import { Reveal } from "@/components/ui/Reveal";
 
 const STANDARDS = [
-  "GHG Protocol",
+  "BRSR",
   "CSRD / ESRS",
+  "TNFD",
   "TCFD",
+  "GHG Protocol",
   "ISSB / IFRS S2",
-  "SBTi",
   "GRI",
-  "CDP",
-  "ISO 14064",
+  "SBTi",
 ];
 
 export function Standards() {
@@ -20,8 +20,7 @@ export function Standards() {
       <div className="shell">
         <Reveal>
           <p className="font-display text-sm text-ink-muted max-w-[62ch]">
-            Built against the frameworks organisations are actually judged by —
-            none of it through third-party assurance yet.
+            Aligned to the frameworks organisations are actually judged by.
           </p>
         </Reveal>
       </div>

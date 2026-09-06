@@ -4,11 +4,14 @@ import { useEffect, useState } from "react";
 
 export const RAIL_SECTIONS = [
   { id: "main", label: "Start" },
-  { id: "problems", label: "Problems" },
+  { id: "problems", label: "Problem" },
+  { id: "solution", label: "Solution" },
+  { id: "offerings", label: "Products" },
   { id: "method", label: "Method" },
-  { id: "proof", label: "Output" },
   { id: "principles", label: "Principles" },
   { id: "about", label: "About" },
+  { id: "mission", label: "Mission" },
+  { id: "team", label: "Team" },
   { id: "faq", label: "FAQ" },
 ];
 

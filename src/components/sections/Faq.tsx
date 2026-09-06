@@ -5,35 +5,35 @@ import { useState } from "react";
 const ITEMS = [
   {
     q: "Which organisations is this for?",
-    a: "Organisations carrying a real reporting obligation and messy underlying data — multi-site operations, fleets, manufacturers, and the funds and asset owners that have to aggregate across them. If your emissions inventory currently lives in a spreadsheet nobody wants to open, that is the case we are built for.",
+    a: "Enterprises and financial portfolios carrying nature and climate disclosure obligations, agribusinesses and sourcing networks with supply chain exposure, and development finance institutions assessing resilience. If you have assets or suppliers whose environmental risk you cannot currently see at site level, that is the case we are built for.",
   },
   {
-    q: "Is this deployed with any organisation yet?",
-    a: "No. Procambrian is pre-product. Every figure on this site comes from our own reference pipeline on public or synthetic data, and is labelled as such.",
+    q: "Which frameworks do you align to?",
+    a: "BRSR, CSRD/ESRS, TNFD and TCFD for disclosure and risk reporting, with GHG Protocol scopes 1, 2 and 3 underneath for emissions accounting. IRIS is trained on global sustainability frameworks and regional climate policies so the alignment is source-cited rather than asserted.",
   },
   {
-    q: "Which frameworks are you building against?",
-    a: "GHG Protocol scopes 1, 2 and 3 for emissions accounting, with disclosure output structured for CSRD/ESRS and TCFD-style physical risk reporting. None of it has been through third-party assurance yet.",
+    q: "How do you prevent AI hallucination in a disclosure?",
+    a: "Two ways. IRIS is retrieval-augmented and answers only with source citations and live side-by-side coordinate mapping back into the original document, so every claim can be checked against the page it came from. On top of that, high-stakes outputs are verified by domain specialists within a 24-hour SLA before they reach a report.",
   },
   {
     q: "Where does the data come from?",
-    a: "An organisation's own operational records — energy, fuel, travel, procurement, supplier declarations — combined with public environmental and climate hazard datasets. Every output figure carries whether it was measured, modelled or estimated.",
+    a: "An organisation's own operational records and internal documents, combined with public environmental and climate datasets — and, critically, direct-from-source field data. We deploy domain expertise to the physical source of truth: real assets, supply chain nodes and local ecosystems, rather than relying on satellite feeds and scraped datasets alone.",
   },
   {
     q: "Does our data have to leave our infrastructure?",
-    a: "That is the point of our first principle. The pipeline is built to run where your data already lives — on your own infrastructure, and on-device for the parts that fit there. Anything that would require handing over custody of your records is a design failure on our side, not a condition of use.",
+    a: "That is the point of our first principle. IRIS is privacy-first, and the pipeline is built to run where your data already lives — on your own infrastructure, and on-device for the parts that fit there. Anything that would require handing over custody of your records is a design failure on our side, not a condition of use.",
   },
   {
     q: "What is the energy cost of running this?",
     a: "Real, and we account for it. We size models to the job rather than defaulting to the largest one available, and we would rather lose some accuracy than run a workload whose footprint outweighs the reductions it identifies. We publish our own compute footprint alongside the results it produced.",
   },
   {
-    q: "How does the AI actually get used?",
-    a: "Mainly for the unglamorous part: reconciling messy records into a consistent inventory, matching supplier line items to emissions factors, and flagging figures that look inconsistent with prior periods. The emissions arithmetic itself is deterministic and inspectable, not model output.",
+    q: "What makes you different from an ESG software vendor?",
+    a: "Sequence. Most platforms are engineered first and given a sustainability domain second. Procambrian was founded by practitioners with fifteen-plus years inside frontline environmental work across India, Southeast Asia and Europe, advising bodies including UNDP, GIZ, EY, PwC and Deloitte. The domain model came first; the AI is how we scale it.",
   },
   {
-    q: "What hasn't been validated?",
-    a: "Scope 3 supplier data at production scale, third-party assurance of our outputs, sector coverage beyond the reference datasets we've tested, and physical risk modelling below regional resolution. We would rather state this than omit it.",
+    q: "What does the human-in-the-loop step actually cover?",
+    a: "Any output where being wrong carries regulatory or financial consequence — disclosure lines, risk classifications and metric retrievals that feed a filing. A domain specialist verifies these within 24 hours. Routine retrieval and exploratory questions are not gated on that review.",
   },
 ];
 

@@ -56,31 +56,27 @@ export function Hero({
 
       <div className="relative shell flex flex-col justify-end pb-16 md:pb-24 pt-[calc(var(--nav-h)+4rem)]">
         <p className="eyebrow !text-white/75 mb-5">
-          Sustainability · ESG · Climate · Environmental intelligence
+          Rooted in nature · Delivered through AI
         </p>
         <h1
           id="hero-heading"
           className="font-display font-semibold text-white text-[2.35rem] leading-[1.05] sm:text-[3rem] lg:text-[3.9rem] xl:text-[4.4rem] max-w-[19ch] text-balance"
         >
-          Rooted in nature, delivered through AI.
+          Nature and climate intelligence, built for industry.
         </h1>
-        <p className="prose-body text-white/85 text-base md:text-lg mt-7 max-w-[56ch]">
-          Procambrian uses AI and data to solve complex sustainability, ESG,
-          climate and environmental intelligence problems for organisations —
-          and states which numbers are measured, modelled or estimated.
+        <p className="prose-body text-white/85 text-base md:text-lg mt-7 max-w-[58ch]">
+          Procambrian turns complex environmental risks into audit-ready
+          decisions, actionable strategies, and verifiable sustainability
+          disclosures.
         </p>
         <div className="mt-9 flex flex-wrap gap-4">
-          <Button href="#problems" variant="solid" arrow>
-            See what we solve
+          <Button href="#offerings" variant="solid" arrow>
+            Explore products
           </Button>
           <Button href="#contact" variant="onDark">
-            Talk to us
+            Request a demo
           </Button>
         </div>
-        <p className="font-display text-xs text-white/55 mt-10 max-w-[52ch]">
-          Pre-product. Every figure on this site comes from our own reference
-          pipeline on public or synthetic data, and is labelled as such.
-        </p>
       </div>
 
       <a

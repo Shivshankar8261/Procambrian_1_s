@@ -5,9 +5,10 @@ import { useEffect, useState } from "react";
 
 export const NAV_LINKS = [
   { href: "#problems", label: "What we solve" },
+  { href: "#offerings", label: "Products" },
   { href: "#method", label: "How it works" },
-  { href: "#principles", label: "Principles" },
   { href: "#about", label: "About" },
+  { href: "#team", label: "Team" },
   { href: "#faq", label: "FAQ" },
 ];
 
@@ -91,7 +92,7 @@ export function Nav() {
                 : "bg-water text-on-accent hover:bg-water-deep"
             }`}
           >
-            Talk to us
+            Request a demo
           </a>
           <button
             type="button"
@@ -115,7 +116,7 @@ export function Nav() {
         className="md:hidden border-t border-line bg-paper"
       >
         <nav aria-label="Sections" className="shell py-4 flex flex-col">
-          {[...NAV_LINKS, { href: "#contact", label: "Talk to us" }].map((l) => (
+          {[...NAV_LINKS, { href: "#contact", label: "Request a demo" }].map((l) => (
             <a
               key={l.href}
               href={l.href}

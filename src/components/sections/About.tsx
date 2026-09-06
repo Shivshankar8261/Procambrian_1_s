@@ -8,36 +8,39 @@ export function About() {
           <Reveal>
             <p className="eyebrow mb-4">About</p>
             <h2 className="font-display font-semibold text-[1.8rem] md:text-4xl lg:text-[2.75rem] text-ink text-balance">
-              Why the method comes from biology
+              Domain expertise first. AI second. Always.
             </h2>
           </Reveal>
         </div>
         <Reveal className="prose-body text-ink-muted space-y-5 text-[1.02rem]">
           <p>
-            Procambium — the first half of our name — is the tissue in a
-            plant that hasn&apos;t decided yet what it will become. It differentiates into xylem, which carries
-            water up, and phloem, which carries sugar down — two jobs, one
-            origin layer, no blueprint drawn in advance.
+            Most AI companies discover sustainability as a market opportunity.
+            Procambrian came directly from the field. You cannot build software
+            for environmental challenges you have never lived.
           </p>
           <p>
-            An organisation&apos;s environmental data behaves the same way. It
-            arrives as scattered records from sites, fleets, suppliers and
-            meters, with no fixed shape. Most tools force it into a template
-            and lose the detail that mattered. We grow the structure from the
-            data instead, then decide what each branch carries — an emissions
-            figure, a risk exposure, a disclosure line.
+            Procambrian was founded by domain practitioners who spent over
+            fifteen years inside frontline sustainability challenges across
+            India, Southeast Asia and Europe. Our team has advised leading
+            international bodies, multilateral development agencies and global
+            consultancies — including UNDP, GIZ, EY, PwC and Deloitte.
           </p>
           <p>
-            The other half of the name — Precambrian — is a reminder that
-            sustainability work is long accumulation before visible change. We
-            build for that timescale: figures that stay traceable years later,
-            and a stated difference between what we measured, what we modelled
-            and what we estimated.
+            <span className="font-display font-semibold text-ink">
+              The forward-deployed reality.
+            </span>{" "}
+            True environmental impact cannot be understood solely from
+            satellite feeds or scraped public datasets. We build at the
+            intersection of bits and bios. By deploying domain expertise
+            directly to the physical source of truth — real assets, supply
+            chain nodes and local ecosystems — we turn raw metrics into
+            verified ecological survival and economic value.
           </p>
           <p>
-            This is a method, not a finished product. We are validating it on
-            public and synthetic datasets before claiming it works on an
-            organisation&apos;s own reporting.
+            The name carries the same idea. Procambium is the tissue in a plant
+            that hasn&apos;t decided yet what it will become; Precambrian is a
+            reminder that environmental work is long accumulation before
+            visible change. We build for that timescale.
           </p>
         </Reveal>
       </div>
