@@ -39,23 +39,88 @@ const STEPS = [
 ];
 
 export function Method() {
-  const [step, setStep] = useState(0);
   const use3D = useCanRender3D();
   const stepRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const stageRef = useRef(0);
+  const barRef = useRef<HTMLSpanElement>(null);
+  // Only the caption and the highlighted step live in React state, so a
+  // scroll produces at most four renders instead of one per frame.
+  const [step, setStep] = useState(0);
 
+  // Progress runs from the centre of the first step to the centre of the
+  // last, so the structure is scattered exactly at point 01 and fully
+  // traced exactly at point 04.
+  //
+  // The two centres are measured once and cached as document positions.
+  // Reading getBoundingClientRect every frame and writing the bar width
+  // straight after forced a synchronous layout on each scroll frame and
+  // locked the main thread; window.scrollY costs nothing.
   useEffect(() => {
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          const index = Number((entry.target as HTMLElement).dataset.step);
-          if (!Number.isNaN(index)) setStep(index);
-        }
-      },
-      { rootMargin: "-45% 0px -45% 0px" }
-    );
-    stepRefs.current.forEach((el) => el && io.observe(el));
-    return () => io.disconnect();
+    let raf = 0;
+    let startY = 0;
+    let span = 0;
+    let painted = -1;
+    let shown = -1;
+
+    const centreOf = (el: HTMLElement) =>
+      el.getBoundingClientRect().top + window.scrollY + el.offsetHeight / 2;
+
+    const remeasure = () => {
+      const first = stepRefs.current[0];
+      const last = stepRefs.current[STEPS.length - 1];
+      if (!first || !last) return;
+      startY = centreOf(first);
+      span = centreOf(last) - startY;
+    };
+
+    const read = () => {
+      if (span <= 0) return;
+      const reading = window.scrollY + window.innerHeight * 0.55;
+      const value = Math.min(1, Math.max(0, (reading - startY) / span));
+
+      stageRef.current = value * (STEPS.length - 1);
+
+      const percent = Math.round(value * 100);
+      if (percent !== painted) {
+        painted = percent;
+        if (barRef.current) barRef.current.style.width = `${percent}%`;
+      }
+      // Tracked outside React: calling setStep on every frame, even with
+      // a bail-out updater, kept the reconciler busy for the whole scroll.
+      const next = Math.round(stageRef.current);
+      if (next !== shown) {
+        shown = next;
+        setStep(next);
+      }
+    };
+
+    const schedule = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(read);
+    };
+
+    const onResize = () => {
+      remeasure();
+      schedule();
+    };
+
+    remeasure();
+    schedule();
+
+    // Fonts and the sticky visual settle after mount and move the steps,
+    // so the cached centres are re-taken whenever the list changes size
+    // rather than trusted from the first frame.
+    const resizeObserver = new ResizeObserver(onResize);
+    stepRefs.current.forEach((el) => el && resizeObserver.observe(el));
+
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", onResize);
+    return () => {
+      cancelAnimationFrame(raf);
+      resizeObserver.disconnect();
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", onResize);
+    };
   }, []);
 
   return (
@@ -77,21 +142,21 @@ export function Method() {
         </Reveal>
       </div>
 
-      <div className="shell mt-12 md:mt-16 grid gap-8 lg:gap-20 lg:grid-cols-[1fr_1fr]">
+      <div className="shell mt-10 md:mt-16 grid gap-4 lg:gap-20 lg:grid-cols-[1fr_1fr]">
         {/* Sticky visual. It holds still while the steps scroll past it,
             and changes state on each one. */}
         <div className="sticky top-[var(--nav-h)] z-10 self-start -mx-6 md:-mx-10 lg:mx-0 bg-panel lg:bg-transparent">
-          <div className="relative h-[34svh] min-h-[240px] lg:h-[min(70svh,34rem)]">
-            {use3D ? <GrowthCanvas stage={step} /> : <GrowthFallback />}
+          <div className="relative h-[30svh] min-h-[200px] lg:h-[min(70svh,34rem)]">
+            {use3D ? <GrowthCanvas stageRef={stageRef} /> : <GrowthFallback />}
           </div>
-          <div className="flex items-center gap-4 px-6 md:px-10 lg:px-0 pb-4 lg:pb-0">
+          <div className="flex items-center gap-4 px-6 md:px-10 lg:px-0 pb-3 lg:pb-0">
             <span className="font-display text-xs tabular-nums text-ink-faint">
               {STEPS[step].n} / {STEPS[STEPS.length - 1].n}
             </span>
             <span className="h-px flex-1 bg-line relative overflow-hidden">
               <span
-                className="absolute inset-y-0 left-0 bg-water transition-[width] duration-500"
-                style={{ width: `${((step + 1) / STEPS.length) * 100}%` }}
+                ref={barRef}
+                className="absolute inset-y-0 left-0 w-0 bg-water"
               />
             </span>
             <span className="font-display text-xs text-water">
@@ -108,7 +173,7 @@ export function Method() {
               ref={(el) => {
                 stepRefs.current[i] = el;
               }}
-              className="min-h-[62svh] flex flex-col justify-center py-10"
+              className="min-h-[42svh] lg:min-h-[62svh] flex flex-col justify-start lg:justify-center py-6 lg:py-10"
             >
               <span className="font-display text-sm font-semibold text-water tabular-nums">
                 {s.n}

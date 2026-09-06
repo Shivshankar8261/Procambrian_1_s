@@ -6,7 +6,11 @@ import { PerformanceMonitor } from "@react-three/drei";
 import { GrowthField } from "./GrowthField";
 import { capDPR, initialDeviceTier, type DeviceTier } from "@/lib/capabilities";
 
-export function GrowthCanvas({ stage }: { stage: number }) {
+export function GrowthCanvas({
+  stageRef,
+}: {
+  stageRef: { current: number };
+}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(true);
   // This component is loaded with ssr:false, so the probes behind
@@ -53,7 +57,7 @@ export function GrowthCanvas({ stage }: { stage: number }) {
         <PerformanceMonitor
           onDecline={() => setTier((t) => (t === "high" ? "medium" : "low"))}
         />
-        <GrowthField seed={1117} stage={stage} />
+        <GrowthField seed={1117} stageRef={stageRef} />
       </Canvas>
     </div>
   );

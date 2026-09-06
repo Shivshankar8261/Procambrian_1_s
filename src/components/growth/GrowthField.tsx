@@ -40,7 +40,7 @@ const vertexShader = /* glsl */ `
 
     float loose = 1.0 - uAssemble;
     vec3 drift = aScatter * loose;
-    drift.y += sin(uTime * 0.55 + aOrder * 0.31) * 0.22 * loose;
+    drift.y += sin(uTime * 0.3 + aOrder * 0.31) * 0.22 * loose;
     world.xyz += drift;
 
     vNormal = normalize(mat3(instanceMatrix) * normal);
@@ -83,7 +83,7 @@ const fragmentShader = /* glsl */ `
 
     // A pulse running root-to-tip: one figure being followed back to the
     // record it came from.
-    float head = fract(uTime * 0.22);
+    float head = fract(uTime * 0.12);
     float pulse = smoothstep(0.10, 0.0, abs(head - vOrder));
     colour = mix(colour, uWater, uTrace * pulse);
 
@@ -92,6 +92,8 @@ const fragmentShader = /* glsl */ `
 `;
 
 const TARGET_HEIGHT = 4.6;
+
+const mix = (a: number, b: number, t: number) => a + (b - a) * t;
 const STAGE_TARGETS = [
   { assemble: 0, highlight: 0, trace: 0 },
   { assemble: 1, highlight: 0, trace: 0 },
@@ -101,10 +103,16 @@ const STAGE_TARGETS = [
 
 export function GrowthField({
   seed = 1117,
-  stage = 1,
+  stageRef,
 }: {
   seed?: number;
-  stage?: number;
+  /**
+   * Fractional position through the states, 0 to STAGE_TARGETS.length - 1,
+   * passed as a ref rather than a prop. Scroll updates it every frame, and
+   * putting that in React state re-rendered the whole canvas subtree on
+   * each one — enough to lock the page up.
+   */
+  stageRef: { current: number };
 }) {
   const meshRef = useRef<THREE.InstancedMesh>(null);
   const spinRef = useRef<THREE.Group>(null);
@@ -222,17 +230,29 @@ export function GrowthField({
     // and forth should feel like one continuous structure, not a slide
     // deck. Frame-rate independent damping.
     // useFrame always runs the latest callback, so this closes over the
-    // current step without a ref to shuttle it through.
-    const target =
-      STAGE_TARGETS[Math.min(STAGE_TARGETS.length - 1, Math.max(0, stage))];
-    const k = 1 - Math.exp(-delta * 3.2);
+    // current stage without a ref to shuttle it through. The stage is
+    // fractional — it is scroll position, not a step index — so the two
+    // states either side of it are blended rather than switched.
+    const stage = stageRef.current;
+    const clamped = Math.min(STAGE_TARGETS.length - 1, Math.max(0, stage));
+    const low = Math.floor(clamped);
+    const high = Math.min(STAGE_TARGETS.length - 1, low + 1);
+    const blend = clamped - low;
+    const target = {
+      assemble: mix(STAGE_TARGETS[low].assemble, STAGE_TARGETS[high].assemble, blend),
+      highlight: mix(STAGE_TARGETS[low].highlight, STAGE_TARGETS[high].highlight, blend),
+      trace: mix(STAGE_TARGETS[low].trace, STAGE_TARGETS[high].trace, blend),
+    };
+    // Half the previous rate: the structure should look like it is
+    // settling, not snapping.
+    const k = 1 - Math.exp(-delta * 1.6);
     uniforms.uAssemble.value += (target.assemble - uniforms.uAssemble.value) * k;
     uniforms.uHighlight.value +=
       (target.highlight - uniforms.uHighlight.value) * k;
     uniforms.uTrace.value += (target.trace - uniforms.uTrace.value) * k;
 
     if (spinRef.current) {
-      spinRef.current.rotation.y += delta * 0.1;
+      spinRef.current.rotation.y += delta * 0.045;
     }
   });
 

@@ -2,10 +2,11 @@
 
 import { useEffect, type RefObject } from "react";
 
-const RETRY_EVENTS = ["loadeddata", "canplay", "playing", "stalled"] as const;
-// A real gesture grants user activation, after which no browser refuses
-// to play a muted video. This is the backstop for every policy we cannot
-// see from here.
+const RETRY_EVENTS = ["loadeddata", "canplay", "playing"] as const;
+// A real gesture grants user activation, after which no browser refuses to
+// play a muted video. These fire once each: scroll and wheel arrive
+// continuously under smooth scrolling, and retrying playback on every one
+// of them floods the media pipeline badly enough to stall the renderer.
 const GESTURE_EVENTS = [
   "pointerdown",
   "touchstart",
@@ -13,6 +14,8 @@ const GESTURE_EVENTS = [
   "wheel",
   "scroll",
 ] as const;
+
+const RETRY_INTERVAL_MS = 1000;
 
 /**
  * Keeps a decorative background video actually playing.
@@ -25,8 +28,8 @@ const GESTURE_EVENTS = [
  *  - a browser that declines the first attempt often accepts a later one;
  *  - a hidden tab has its decoder released, so a video that was playing
  *    can come back paused;
- *  - iOS Low Power Mode, some enterprise policies and some extensions
- *    refuse autoplay outright, and only a user gesture lifts it.
+ *  - iOS Low Power Mode and some enterprise policies refuse autoplay
+ *    outright, and only a user gesture lifts it.
  */
 export function useAutoplay(
   ref: RefObject<HTMLVideoElement | null>,
@@ -41,8 +44,13 @@ export function useAutoplay(
       return;
     }
 
+    let lastAttempt = 0;
+
     const start = () => {
       if (!video.paused) return;
+      const now = performance.now();
+      if (now - lastAttempt < RETRY_INTERVAL_MS) return;
+      lastAttempt = now;
       video.play().catch(() => {
         /* Declined; a later event or the first gesture will try again. */
       });
@@ -53,7 +61,7 @@ export function useAutoplay(
     RETRY_EVENTS.forEach((event) => video.addEventListener(event, start));
     document.addEventListener("visibilitychange", start);
     GESTURE_EVENTS.forEach((event) =>
-      window.addEventListener(event, start, { passive: true })
+      window.addEventListener(event, start, { passive: true, once: true })
     );
 
     return () => {
